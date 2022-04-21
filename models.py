@@ -45,6 +45,9 @@ class Artwork(models.Model):
         managed = False
         db_table = 'artwork'
 
+    def __str__(self) -> str:
+        return f"{self.title} ({self.id})"
+
 
 class Image(models.Model):
     artwork = models.ForeignKey(Artwork, models.DO_NOTHING, db_column='artwork')
@@ -62,6 +65,9 @@ class Image(models.Model):
         managed = False
         db_table = 'image'
         unique_together = (('artwork', 'filename'),)
+
+    def __str__(self) -> str:
+        return f"{self.artwork.title} ({self.filename}.{self.type})"
 
 
 class Keyword(models.Model):
@@ -83,3 +89,6 @@ class Person(models.Model):
     class Meta:
         managed = False
         db_table = 'person'
+
+    def __str__(self) -> str:
+        return f"{self.name}"

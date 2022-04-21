@@ -4,9 +4,13 @@ from .models import *
 from django.utils.html import format_html
 from django.contrib.gis import admin
 
+class ImageInline(admin.TabularInline):
+    model = Image
+
 @admin.register(Image)
 class ImageModel(admin.ModelAdmin):
     fields = get_fields(Image)
+    autocomplete_fields = ['artwork']
     #.append('image_preview')
     # readonly_fields = ('image_preview',)
     # list_display = ('bild', 'thumbnail_preview')
@@ -26,15 +30,18 @@ class ImageModel(admin.ModelAdmin):
 @admin.register(Artwork)
 class ArtworkAdmin(admin.ModelAdmin):
     fields = get_fields(Artwork)
+    inlines = [ImageInline]
+    search_fields = ['title', 'id']
+    autocomplete_fields = ['sender', 'recipient']
 
 @admin.register(Keyword)
 class KeywordAdmin(admin.ModelAdmin):
     fields = get_fields(Keyword) 
-    # list_display = '__all__'#['name', 'id', 'parent', 'origin', 'province', 'county']
+    list_display = get_fields(Keyword)
 
 
 @admin.register(Person)
 class PersonAdmin(admin.ModelAdmin): 
     fields = get_fields(Person) 
-    # list_display = '__all__'#['objektid', 'objekt', 'undertyp', 'motiv']
-    # list_filter = ['dat_min', 'dat_max']
+    list_display = get_fields(Person)
+    search_fields = ['name']
