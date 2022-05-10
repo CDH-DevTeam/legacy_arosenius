@@ -38,6 +38,7 @@ class ArtworkAdmin(admin.ModelAdmin):
 class KeywordAdmin(admin.ModelAdmin):
     fields = get_fields(Keyword) 
     list_display = get_fields(Keyword)
+    search_fields = ['type', 'name']
 
 
 @admin.register(Person)
